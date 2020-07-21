@@ -16,7 +16,7 @@ useEffect(()=>{
   }
 },[])
   return (
-    loading?<div>Loading.....</div>:error?<div>error</div>:
+    loading?<div>Loading.....</div>:error?<div>Oops Error................</div>:
     <ul className="products">
       {
         products.map((product, index) =>
