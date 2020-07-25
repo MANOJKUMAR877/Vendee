@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
 function ProductScreen(props) {
     const productDetails = useSelector((state) => state.productDetails);
-    const { product, loading, error } = productDetails;
+    const { products, loading, error } = productDetails;
+    console.log(productDetails)
     
     const dispatch = useDispatch();
     useEffect(() => {
@@ -25,23 +26,23 @@ function ProductScreen(props) {
           (
           <div className="details">
           <div className="details-image">
-              <img src={product.image} alt="productImage" />
+              <img src={products.image} alt="productImage" />
           </div>
           <div className="details-info">
               <ul>
                   <li>
-                      <h4>{product.name}</h4>
+                      <h4>{products.name}</h4>
                   </li>
                   <li>
-                      {product.rating} Stars ({product.numReviews} Reviews)
+                      {products.rating} Stars ({products.numReviews} Reviews)
                   </li>
                   <li>
-                      <b>Price:₹{product.price}</b>
+                      <b>Price:₹{products.price}</b>
                   </li>
                   <li>
                       Description
                       <div>
-                          {product.description}
+                          {products.description}
                       </div>
                   </li>
               </ul>
@@ -49,10 +50,10 @@ function ProductScreen(props) {
           <div className="details-action">
               <ul>
                   <li>
-                      Price: {product.price}
+                      Price: {products.price}
                   </li>
                   <li>
-                      Status: {product.status}
+                      Status: {products.status}
                   </li>
                   <li>
                       Qty: <select>
