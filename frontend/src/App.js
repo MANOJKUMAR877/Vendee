@@ -54,7 +54,7 @@ function App() {
 
         </main>
         <footer className="footer">
-          All right reserved $copy,.
+        &copy;  All right reserved  .
     </footer>
       </div>
     </BrowserRouter>
