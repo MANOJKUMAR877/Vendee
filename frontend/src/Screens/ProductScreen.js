@@ -1,14 +1,15 @@
-import React,{useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { detailsProduct} from '../actions/productActions'
+import { detailsProduct } from '../actions/productActions'
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
 function ProductScreen(props) {
+    const [qty, setQty] = useState(1);
     const productDetails = useSelector((state) => state.productDetails);
     const { products, loading, error } = productDetails;
-    console.log(productDetails)
-    
+
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(detailsProduct(props.match.params.id));
@@ -16,63 +17,65 @@ function ProductScreen(props) {
 
         };
     }, []);
+    const handleAddToCart=()=>{
+        props.history.push("/cart/" + props.match.params.id + "?qty=" + qty);
+    }
 
     return (
         <div >
             <div className="back-to-result">
                 <Link to="/"><button className="btn"><FontAwesomeIcon icon={faBackward} /> Back to result</button></Link>
             </div>
-          {loading ? <div>Loading....</div>:error?<div>error</div>:
-          (
-          <div className="details">
-          <div className="details-image">
-              <img src={products.image} alt="productImage" />
-          </div>
-          <div className="details-info">
-              <ul>
-                  <li>
-                      <h4>{products.name}</h4>
+            {loading ? <div>Loading....</div> : error ? <div>error</div> :
+                (
+                    <div className="details">
+                        <div className="details-image">
+                            <img src={products.image} alt="productImage" />
+                        </div>
+                        <div className="details-info">
+                            <ul>
+                                <li>
+                                    <h4>{products.name}</h4>
+                                </li>
+                                <li>
+                                    {products.rating} Stars ({products.numReviews} Reviews)
                   </li>
-                  <li>
-                      {products.rating} Stars ({products.numReviews} Reviews)
-                  </li>
-                  <li>
-                      <b>Price:₹{products.price}</b>
-                  </li>
-                  <li>
-                      Description
+                                <li>
+                                    <b>Price:₹{products.price}</b>
+                                </li>
+                                <li>
+                                    Description
                       <div>
-                          {products.description}
-                      </div>
-                  </li>
-              </ul>
-          </div>
-          <div className="details-action">
-              <ul>
-                  <li>
-                      Price: {products.price}
-                  </li>
-                  <li>
-                      Status: {products.status}
-                  </li>
-                  <li>
-                      Qty: <select>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
+                                        {products.description}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="details-action">
+                            <ul>
+                                <li>
+                                    Price: {products.price}
+                                </li>
+                                <li>
+                                    Status: {products.countInStock > 0?"In Stock":"Unavailable"}
+                                </li>
+                                <li>
+                                    Qty: <select value={qty} onChange={(e) => { setQty(e.target.value) }}>
+                                        {[...Array(products.countInStock).keys()].map(x =>
+                                            <option key={x+1} value={x + 1}>{x + 1}</option>
+                                        )}
 
-                      </select>
-                  </li>
-                  <li >
-                      <button className="button" >Add to cart</button>
-                  </li>
-              </ul>
+                                    </select>
+                                </li>
+                                <li >
+                                    {products.countInStock >0 && <button onClick={handleAddToCart} className="button" >Add to cart</button>}
+                                    
+                                </li>
+                            </ul>
 
-          </div>
-      </div>)}
-            
+                        </div>
+                    </div>)}
+
         </div>
     )
 }
