@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { CART_ADD_ITEM } from "../constants/cartConstant";
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstant";
 
 
 const addToCart = (productId, qty) => async (dispatch) => {
@@ -21,5 +21,8 @@ const addToCart = (productId, qty) => async (dispatch) => {
 
   }
 }
+const removeFromCart =(productId)=>(dispatch)=>{
+  dispatch({type:CART_REMOVE_ITEM,payload:productId})
+}
 
-export {addToCart}
+export {addToCart,removeFromCart}
